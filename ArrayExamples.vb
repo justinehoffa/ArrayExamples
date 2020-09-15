@@ -1,10 +1,14 @@
-﻿Module ArrayExamples
+﻿Option Strict On
+Option Explicit On
+Option Compare Text
 
+Module ArrayExamples
     Sub Main()
         'SimpleArray()
         'IterateSimpleArray()
         'LessSimple()
-        Multidimensional()
+        'Multidimensional()
+        DisplayArray()
         Console.Read()
     End Sub
 
@@ -21,17 +25,22 @@
     Sub IterateSimpleArray()
         Dim names(5) As String
 
-        names(0) = "Bob"
+        names(0) = "joe"
         names(3) = "Jimmy"
 
-        For i = 1 To 6
-            Console.WriteLine("Hello " & names(i))
+        For i = 0 To 5
+            If names(i) <> "" Then : Console.WriteLine("Hello " & names(i)) : End If
         Next
 
         'For i = LBound(names) To UBound(names)
         '    Console.WriteLine("Hello " & names(i))
         'Next
 
+        If names.Contains("Bob") Then
+            Console.WriteLine("Bob is home")
+        Else
+            Console.WriteLine("Bob has gone fishing")
+        End If
 
     End Sub
 
@@ -68,5 +77,48 @@
         Next
 
     End Sub
+
+    Sub DisplayArray() 'TODO pass in array, maybe column row headers
+        Dim row As Integer = 12
+        Dim column As Integer = 3
+        Dim formattedString As String
+        Dim currentArray(row, column) As Boolean
+        Dim randomColumn As Integer
+        Dim randomRow As Integer
+
+        'Initialize the random-number generator
+        Randomize()
+
+        'Generate random value between 0 and 3. 
+
+        For i = 1 To 10
+            randomColumn = CInt(Int((4 * Rnd() + 1)))
+            randomRow = CInt(Int((13 * Rnd() + 1)))
+            If Not currentArray(randomRow, randomColumn) Then
+                currentArray(randomRow, randomColumn) = True
+            Else
+                Console.WriteLine($" Row {randomRow}, Column {randomColumn}")
+            End If
+            currentArray(0, randomColumn) = True
+        Next
+
+
+        For i = 0 To row
+            For j = 0 To column
+                formattedString = $" {i},{j} "
+                'Console.Write(formattedString.PadLeft(8))
+                If currentArray(i, j) Then
+                    Console.Write(" T ")
+                Else
+                    Console.Write(" F ")
+                End If
+            Next
+            Console.WriteLine()
+        Next
+        Console.Read()
+
+    End Sub
+
+
 
 End Module
